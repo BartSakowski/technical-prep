@@ -15,6 +15,7 @@ export class App extends Component {
             quantity: 6,
           },
         ],
+        showItems: false
       },
       {
         tableNumber: 2,
@@ -24,6 +25,7 @@ export class App extends Component {
             quantity: 1,
           },
         ],
+        showItems: false
       },
     ],
   };
@@ -40,19 +42,24 @@ export class App extends Component {
     return itemCount;
   };
 
-  handleClick = () => {
-    console.log(this.state);
-  };
+  handleClick = (myTable) => {
+    this.setState({
+      sampleOrders: this.state.sampleOrders.map(
+        table => table.tableNumber === myTable.tableNumber && myTable.showItems === false ? {...table, showItems : true} : {...table, showItems: false}
+      )
+    })
+ 
+  }
 
   renderItems = () => {};
 
   renderTable = (tables) => {
       return tables.map(table => {
-      return (
-        <>
-          <div onClick={this.handleClick}>Table {this.tableNum(table)} - {this.itemNum(table)} items</div>
-        </>
-      );
+        return (
+          <>
+            <div onClick={() => this.handleClick(table)}>Table {this.tableNum(table)} - {this.itemNum(table)} items</div>
+          </>
+        );
     })
   };
 
